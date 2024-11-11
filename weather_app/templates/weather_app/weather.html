@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Прогноз погоды{% endblock %}
+
+{% block content %}
+
+<div class="container weather-container" style="width: 100%; max-width: 400px; text-align: center; background-color: #444; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <form method="get" style="margin-bottom: 20px;">
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div style="margin-bottom: 20px;">
+                        {% if message.tags == "success" %}
+                            <p style="color: green;">{{ message }}</p>
+                        {% elif message.tags == "error" %}
+                            <p style="color: red;">{{ message }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <input type="text" name="city" placeholder="Введите город"
+               value="{% if not weather %}{{ request.GET.city }}{% endif %}"
+               style="padding: 8px; width: calc(100% - 20px); border: 1px solid #ccc; border-radius: 3px; background-color: #333; color: #d3d3d3;">
+
+        <select name="forecast_type" style="padding: 8px; margin-top: 10px; width: 100%; border: 1px solid #ccc; border-radius: 3px; background-color: #333; color: #d3d3d3;">
+            <option value="current" {% if request.GET.forecast_type == 'current' %}selected{% endif %}>Текущая погода</option>
+            <option value="next_three_hours" {% if request.GET.forecast_type == 'next_three_hours' %}selected{% endif %}>Прогноз на ближайшие 3 часа</option>
+            <option value="tomorrow" {% if request.GET.forecast_type == 'tomorrow' %}selected{% endif %}>Прогноз на завтра (на 12:00)</option>
+        </select>
+
+        <button type="submit" style="
+                margin-top: 10px;
+                padding: 10px;
+                width: 100%;
+                border: none;
+                border-radius: 3px;
+                background-color: #007bff;
+                color: #fff;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s ease;">
+            Показать погоду
+        </button>
+    </form>
+
+    {% if error %}
+        <p class="error-message" style="color: red;">{{ error }}</p>
+    {% elif weather %}
+        <ul class="weather-info" style="list-style: none; padding: 0; margin: 0; color: #d3d3d3; text-align: left;">
+            <li><strong>Дата и время:</strong> {{ weather.date_time }}</li>
+            <li><strong>Город:</strong> {{ weather.city.capitalize }}</li>
+            <li><strong>Температура:</strong> {{ weather.temperature }} °C</li>
+            <li><strong>Давление:</strong> {{ weather.press }} гПа</li>
+            <li><strong>Ветер:</strong> {{ weather.wind }} м/с</li>
+            <li><strong>Описание:</strong> {{ weather.description }}</li>
+            {% if weather.date %}
+                <li><strong>Дата:</strong> {{ weather.date|date:"d.m.Y" }}</li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>
+{% endblock %}

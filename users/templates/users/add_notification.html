@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить уведомление{% endblock %}
+
+{% block content %}
+<div class="container" style="width: 100%; max-width: 400px; text-align: center; background-color: #444; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <h2 style="color: #d3d3d3; margin-bottom: 20px; font-size: 24px;">Добавить уведомление</h2>
+
+    <!-- Сообщения об успехе и ошибке -->
+    {% if messages %}
+        <div style="text-align: center; margin-bottom: 20px;">
+            {% for message in messages %}
+                <div style="margin-bottom: 20px; color: white; font-size: 16px;">
+                    {% if message.tags == "success" %}
+                        <p style="color: green;">{{ message }}</p>
+                    {% elif message.tags == "error" %}
+                        <p style="color: red;">{{ message }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Форма добавления уведомления -->
+    <form method="post" style="background-color: #444;">
+        {% csrf_token %}
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="{{ form.city.id_for_label }}" style="color: #d3d3d3; font-size: 18px;">Город</label>
+            {{ form.city }}
+        </div>
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="{{ form.frequency.id_for_label }}" style="color: #d3d3d3; font-size: 18px;">Частота уведомлений</label>
+            {{ form.frequency }}
+        </div>
+        <button type="submit" class="btn btn-primary" style="
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 66%;
+            margin: 0 auto;
+        ">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

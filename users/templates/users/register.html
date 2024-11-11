@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: flex-start; min-height: 80vh; margin-top: 20px;">
+    <div style="width: 100%; max-width: 500px; text-align: center; background-color: #444; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
+        <h2 style="color: #d3d3d3; margin-bottom: 20px;">Регистрация</h2>
+
+        <!-- Проверка и отображение ошибок формы -->
+        {% if form.errors %}
+            <div style="color: red; margin-bottom: 15px; text-align: left;">
+                <p><strong>Ошибка:</strong></p>
+                <ul style="padding-left: 20px;">
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ errors|join:", " }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" style="font-size: 18px; color: #d3d3d3;">
+            {% csrf_token %}
+            <!-- Вывод полей формы с применением стилей -->
+            <div style="display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 20px;">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" style="
+                    margin-top: 20px;
+                    padding: 12px;
+                    width: 100%;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: #007bff;
+                    color: #fff;
+                    cursor: pointer;
+                    font-size: 18px;
+                    transition: background-color 0.3s ease;">
+                Зарегистрироваться
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

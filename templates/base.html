@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Лучший сайт о погоде{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body style="background-color: #333; color: #d3d3d3; font-size: 18px;"> <!-- Увеличен шрифт -->
+
+    <!-- Навигация -->
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background-color: #444;">
+        <div style="display: flex; align-items: center;">
+            <a href="{% url 'base' %}" style="color: #d3d3d3; text-decoration: none; font-weight: bold; margin-right: 20px; font-size: 18px;">На главную страницу</a> <!-- Увеличен шрифт -->
+        </div>
+        <div style="flex-grow: 1; text-align: center;">
+            {% if user.is_authenticated %}
+                <span style="color: #d3d3d3; font-size: 18px;">Добро пожаловать, уважаемый {{ user.username }}!</span> <!-- Увеличен шрифт -->
+            {% endif %}
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" style="color: #d3d3d3; text-decoration: none; margin-right: 15px; font-size: 18px;">Профиль</a> <!-- Увеличен шрифт -->
+                <a href="{% url 'logout' %}" style="color: #d3d3d3; text-decoration: none; font-size: 18px;">Выйти</a> <!-- Увеличен шрифт -->
+            {% else %}
+                <a href="{% url 'login' %}" style="color: #d3d3d3; text-decoration: none; margin-right: 15px; font-size: 18px;">Войти</a> <!-- Увеличен шрифт -->
+                <a href="{% url 'register' %}" style="color: #d3d3d3; text-decoration: none; font-size: 18px;">Регистрация</a> <!-- Увеличен шрифт -->
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Контент -->
+    <main style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px;">
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

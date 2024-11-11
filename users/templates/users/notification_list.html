@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои Уведомления{% endblock %}
+
+{% block content %}
+<div class="container" style="width: 100%; max-width: 490px; text-align: left; background-color: #444; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <h2 style="color: #fff; margin-bottom: 20px; font-size: 24px; text-align: center;">Список уведомлений</h2>
+
+    {% if messages %}
+        <div style="text-align: center; margin-bottom: 20px;">
+            {% for message in messages %}
+                <div style="margin-bottom: 20px; color: white; font-size: 16px;">
+                    {% if message.tags == "success" %}
+                        <p style="color: green;">{{ message }}</p>
+                    {% elif message.tags == "error" %}
+                        <p style="color: red;">{{ message }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div style="padding: 20px; background-color: #444;">
+
+        <!-- Список уведомлений, выровненный по центру -->
+        {% if notifications %}
+            <ul class="list-group mt-3" style="padding: 0; list-style-type: none; text-align: center;">
+                {% for notification in notifications %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #555; color: #fff; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; padding: 12px; text-align: left;">
+                        <div style="flex: 1;">
+                            <strong>Город:</strong> {{ notification.city }},
+                            <strong>Частота:</strong> {{ notification.get_frequency_display }}
+                        </div>
+
+                        <!-- Кнопка удаления уведомления -->
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <a href="{% url 'delete_notification' notification.id %}" class="btn btn-danger btn-sm" style="padding: 8px 16px; font-size: 14px; background-color: #d9534f; border-color: #d9534f; color: #fff; border-radius: 5px; transition: background-color 0.3s ease; text-decoration: none; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);">
+                                <i class="bi bi-trash"></i> Удалить
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <!-- Центрирование текста "У вас нет уведомлений" -->
+            <div style="display: flex; align-items: center; justify-content: center; height: 200px;">
+                <p style="color: #fff; font-size: 18px; text-align: center;">У вас нет уведомлений.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
