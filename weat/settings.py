@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+
+import dj_database_url
 from celery.schedules import timedelta
 import os
 from dotenv import load_dotenv
@@ -59,16 +61,22 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'weat.urls'
 
+#ДЛя запуска на хостинге
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Указываем, что используем PostgreSQL
-        'NAME': 'postgres_weather',
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
-        'HOST': 'db',  # Обычно 'localhost' если без докера, а с докером db
-        'PORT': '5432',  # Порт по умолчанию для PostgreSQL
-    }
+    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
 }
+
+# ДЛя запуска на компе
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',  # Указываем, что используем PostgreSQL
+#         'NAME': 'postgres_weather',
+#         'USER': 'postgres',
+#         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+#         'HOST': 'db',  # Обычно 'localhost' если без докера, а с докером db
+#         'PORT': '5432',  # Порт по умолчанию для PostgreSQL
+#     }
+# }
 
 # настройка API email
 WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
