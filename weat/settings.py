@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 if os.environ.get('DJANGO_PRODUCTION'):
     # Параметры для продакшн
     DEBUG = False
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'server-weather-github.onrender.com']
     # Установи правильные ключи API и другие переменные окружения
 else:
     # Настройки для разработки
