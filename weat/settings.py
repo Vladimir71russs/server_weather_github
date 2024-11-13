@@ -26,12 +26,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-qr5367%fqh311ef$_mp0e$a(fjv4%*$wizd=rrnv_%j%%tw$c0'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ.get('DJANGO_PRODUCTION'):
+    # Параметры для продакшн
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']
+    # Установи правильные ключи API и другие переменные окружения
+else:
+    # Настройки для разработки
+    DEBUG = True
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-ALLOWED_HOSTS = []
+# DEBUG = True
+#
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -63,7 +73,7 @@ ROOT_URLCONF = 'weat.urls'
 
 #ДЛя запуска на хостинге
 DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
 # ДЛя запуска на компе
@@ -146,9 +156,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CELERY_BROKER_URL = 'redis://localhost:6379/0' # Без докера
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0' # Без докера
 
-# С докером
-CELERY_BROKER_URL = 'redis://redis:6379/0'  # Используем имя сервиса Redis
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+# С докером или на продакшене
+CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')  # Используем переменную REDIS_URL
+CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+
 
 
 CELERY_BEAT_SCHEDULE = {

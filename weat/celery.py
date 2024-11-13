@@ -13,5 +13,6 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Автоматически регистрируем задачи из приложений
 app.autodiscover_tasks()
 
-# Добавьте это в конфигурацию вашего Celery
-broker_connection_retry_on_startup = True
+
+# Добавьте следующее
+app.conf.broker_connection_retry_on_startup = True
