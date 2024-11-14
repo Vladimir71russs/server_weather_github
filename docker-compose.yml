@@ -9,6 +9,7 @@ services:
     depends_on:
       - db
       - redis
+      - migrate
 
   redis:
     image: redis:alpine
@@ -20,7 +21,7 @@ services:
     restart: always
     environment:
       POSTGRES_DB: postgres_weather
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres_weather_user
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}  # Используем переменные окружения
     volumes:
       - postgres_data:/var/lib/postgresql/data
