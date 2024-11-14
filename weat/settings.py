@@ -28,20 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('DJANGO_PRODUCTION'):
-    # Параметры для продакшн
-    DEBUG = False
-    ALLOWED_HOSTS = ['*']
-    # Установи правильные ключи API и другие переменные окружения
-else:
-    # Настройки для разработки
-    DEBUG = True
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-
-# DEBUG = True
-#
-# ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['server-weather-github.onrender.com']
 
 # Application definition
 
