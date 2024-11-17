@@ -9,7 +9,6 @@ services:
     depends_on:
       - db
       - redis
-      - migrate
 
   redis:
     image: redis:alpine
@@ -50,12 +49,6 @@ services:
     depends_on:
       - db
       - redis
-
-  migrate:
-    build: .
-    command: [ "python", "manage.py", "migrate" ]
-    depends_on:
-      - db
 
 volumes:
   postgres_data:
